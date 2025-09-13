@@ -8,5 +8,12 @@ authors = [{ name = "Alpic" }]
 keywords = ["mcp", "llm", "alpic", "python"]
 dependencies = [
     "black>=25.1.0",
+    "fastmcp>=2.12.3",
     "mcp",
+    "watchdog>=6.0.0",
+    "httpx>=0.25.0",
+    "python-dotenv>=1.0.0",
+    "requests>=2.31.0",
+    "fastapi>=0.104.0",
+    "uvicorn>=0.24.0",
 ]
