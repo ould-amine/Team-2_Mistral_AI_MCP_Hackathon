@@ -66,13 +66,11 @@ def get_facebook_auth_url() -> str:
 
 
 @mcp.tool(
-    title="Text Post to Facebook Page",
-    description="Post text content to Facebook page",
+    title="Check Facebook Connection",
+    description="Check if Facebook page is connected and ready for posting",
 )
-def post_to_facebook_page(
-    post_text: str = Field(description="Message content to post to Facebook page")
-) -> str:
-    """Text Post to Facebook page using hardcoded user"""
+def check_facebook_connection() -> str:
+    """Check if Facebook account is connected and ready for posting"""
     try:
         # Use hardcoded user ID
         facebook_user_id = LE_CHAT_USER_ID
@@ -81,13 +79,49 @@ def post_to_facebook_page(
         user_data = load_user_data()
         
         if facebook_user_id not in user_data:
-            return "Facebook account not connected. Please visit the auth URL first to connect your Facebook page."
+            return "❌ Facebook not connected. Use 'get_facebook_auth_url()' to get the authorization URL."
         
         # Get user's pages
         pages = user_data[facebook_user_id].get('pages', [])
         
         if not pages:
-            return "No Facebook pages found. Make sure you have admin access to at least one Facebook page."
+            return "❌ No Facebook pages found. Use 'get_facebook_auth_url()' to connect your page."
+        
+        # Get first page info
+        first_page = pages[0]
+        page_name = first_page['name']
+        
+        return f"✅ Facebook connected! Ready to post to '{page_name}'"
+        
+    except Exception as e:
+        return f"❌ Error checking connection: {str(e)}"
+
+
+@mcp.tool(
+    title="Post to Facebook Page",
+    description="Post text content and/or image to Facebook page (uses first available page)",
+)
+def post_to_facebook_page(
+    post_text: str = Field(description="Message content to post to Facebook page"),
+    image_url: str = Field(description="URL of the image to post (optional)", default="")
+) -> str:
+    """Post text and/or image to Facebook page using hardcoded user"""
+    try:
+        print(f"🔄 Posting to Facebook page: {post_text} {image_url}")
+        # Use hardcoded user ID
+        facebook_user_id = LE_CHAT_USER_ID
+        
+        # Load user data
+        user_data = load_user_data()
+        
+        if facebook_user_id not in user_data:
+            return "❌ Facebook account not connected. Please visit the auth URL first to connect your Facebook page."
+        
+        # Get user's pages
+        pages = user_data[facebook_user_id].get('pages', [])
+        
+        if not pages:
+            return "❌ No Facebook pages found. Make sure you have admin access to at least one Facebook page."
         
         # Use the first available page
         first_page = pages[0]
@@ -96,25 +130,50 @@ def post_to_facebook_page(
         page_id = first_page['id']
         
         print(f"📝 Posting to Facebook page: {page_name} (ID: {page_id})")
+        if image_url:
+            print(f"🖼️ Image URL: {image_url}")
         
-        # Post to the page
-        post_url = f"https://graph.facebook.com/{page_id}/feed"
+        # Prepare post data
+        post_url = f"https://graph.facebook.com/{page_id}/photos" if image_url else f"https://graph.facebook.com/{page_id}/feed"
         post_data = {
-            'message': post_text,
             'access_token': page_token
         }
+        
+        # Add message if provided
+        if post_text:
+            post_data['message'] = post_text
+        
+        # Add image if provided
+        if image_url:
+            post_data['url'] = image_url  # Facebook will fetch the image from URL
+            post_type = "photo with text" if post_text else "photo"
+        else:
+            post_type = "text post"
         
         response = requests.post(post_url, data=post_data)
         result = response.json()
         
         if 'id' in result:
-            return f"✅ Successfully posted to '{page_name}'!\n📱 Post ID: {result['id']}\n📝 Message: {post_text}"
+            post_id = result['id']
+            # Create direct link to the Facebook post
+            facebook_post_url = f"https://www.facebook.com/{post_id}"
+            
+            success_msg = f"✅ Successfully posted {post_type} to '{page_name}'!\n"
+            success_msg += f"🔗 View post: {facebook_post_url}\n"
+            success_msg += f"📱 Post ID: {post_id}"
+            
+            if post_text:
+                success_msg += f"\n📝 Message: {post_text}"
+            if image_url:
+                success_msg += f"\n🖼️ Image: {image_url}"
+                
+            return success_msg
         else:
             error_msg = result.get('error', {}).get('message', 'Unknown error')
-            return f"Error posting to Facebook: {error_msg}"
+            return f"❌ Error posting to Facebook: {error_msg}"
             
     except Exception as e:
-        return f"Error posting to Facebook: {str(e)}"
+        return f"❌ Error posting to Facebook: {str(e)}"
 
 
 if __name__ == "__main__":
