@@ -16,6 +16,7 @@ class FacebookPosts:
         """Post text content to Facebook page"""
         post_data = {
             'message': post_text,
+            'published': 'true',  # Ensure post is published
             'access_token': page_token
         }
         post_url = f"https://graph.facebook.com/{page_id}/feed"
@@ -28,6 +29,7 @@ class FacebookPosts:
         post_data = {
             'message': post_text,
             'url': image_url,
+            'published': 'true',  # Ensure post is published
             'access_token': page_token
         }
         post_url = f"https://graph.facebook.com/{page_id}/photos"
