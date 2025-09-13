@@ -1,0 +1,29 @@
+{
+  "12345678": {
+    "facebook_user_id": "12345678",
+    "access_token": "EAAOaVJRg6h4BPaNRjcXUgXTA14Rik0RZAK7W1p49YHVKtFmdU8gqcTly9Rmw4LFxuZAeY3dp8yD0cmMKxsFYwCnGskYxpLoZCeotHZBI5HyN3u5c5fjVCo8ZA8YmjZA1HpochXFaWBvVxmPQzUVs4qruv0LebL1SwPQjmCwHwwIg7bRqHBzhwMOoLPT05X1qPRoe24vdSQHk0cUYLNGbdsDUCwmbXceNZCVA25fBQkS7R8loLboKNqj5P8581ZCUXmostSdZCDQZDZD",
+    "pages": [
+      {
+        "access_token": "EAAOaVJRg6h4BPc3Kd3FnYVyax9V8iCowi02NuyWQf1HOt9Ga5SYm7ojFWWJ4csN4vlDxweeInqFwfUQvslwkOPzrI8NhEeENZAyTETpxHw0qkCD2tdB1v4QlXPV83sW9QBUxfCq8zXP542IffrJpNJNR1XyLfC5AwDvYQaen8PJd1irZAGfhHKCKJiF7KrCoNPBNuL3CsXHoo8tmQzx7j3",
+        "category": "Shopping service",
+        "category_list": [
+          {
+            "id": "200046713342752",
+            "name": "Shopping service"
+          }
+        ],
+        "name": "Shoes Markt",
+        "id": "361031423749473",
+        "tasks": [
+          "ADVERTISE",
+          "ANALYZE",
+          "CREATE_CONTENT",
+          "MESSAGING",
+          "MODERATE",
+          "MANAGE",
+          "MANAGE_LEADS"
+        ]
+      }
+    ]
+  }
+}
