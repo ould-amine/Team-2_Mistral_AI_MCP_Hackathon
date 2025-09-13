@@ -11,10 +11,7 @@ from ..api.facebook_analytics import FacebookAnalytics
 def register_analytics_tools(mcp: FastMCP, client: FacebookClient, analytics: FacebookAnalytics):
     """Register analytics tools"""
     
-    @mcp.tool(
-        title="Get Facebook Post History",
-        description="Get recent Facebook posts with basic analytics (last 20 posts)",
-    )
+   
     def get_facebook_post_history() -> str:
         """Get recent Facebook posts with basic analytics"""
         return analytics.get_post_history_summary(limit=20)
@@ -43,6 +40,7 @@ def register_analytics_tools(mcp: FastMCP, client: FacebookClient, analytics: Fa
             
             # Fetch analytics data
             analytics_data = analytics.fetch_analytics_data(limit)
+            print("Fetched analytics data:", analytics_data)  # Debug log            
             
             if not analytics_data:
                 return "📭 No posts found or error fetching data"
