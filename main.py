@@ -19,12 +19,12 @@ mcp = FastMCP("Facebook MCP Server", port=3000, stateless_http=True, debug=True)
 # Facebook App Configuration
 FACEBOOK_APP_ID = os.getenv("FACEBOOK_APP_ID")
 FACEBOOK_APP_SECRET = os.getenv("FACEBOOK_APP_SECRET")
-FACEBOOK_REDIRECT_URI = os.getenv("FACEBOOK_REDIRECT_URI")
+FACEBOOK_REDIRECT_URI = os.getenv("FACEBOOK_REDIRECT_URI") or "http://localhost:8000/facebook/callback"
 LE_CHAT_USER_ID=os.getenv("LE_CHAT_USER_ID")
 
 # make sure to add the app id and secret to the .env file and check the .env file
-if not FACEBOOK_APP_ID or not FACEBOOK_APP_SECRET or not FACEBOOK_REDIRECT_URI:
-    raise ValueError("FACEBOOK_APP_ID, FACEBOOK_APP_SECRET, and FACEBOOK_REDIRECT_URI must be set")
+if not FACEBOOK_APP_ID or not FACEBOOK_APP_SECRET:
+    raise ValueError("FACEBOOK_APP_ID, FACEBOOK_APP_SECRET must be set")
 
 # File to store user tokens
 USER_DATA_FILE = "facebook_users.json"

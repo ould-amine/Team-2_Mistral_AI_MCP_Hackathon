@@ -19,7 +19,7 @@ app = FastAPI(title="Facebook OAuth Callback Server")
 # Facebook App Configuration
 FACEBOOK_APP_ID = os.getenv("FACEBOOK_APP_ID")
 FACEBOOK_APP_SECRET = os.getenv("FACEBOOK_APP_SECRET")
-FACEBOOK_REDIRECT_URI = os.getenv("FACEBOOK_REDIRECT_URI")
+FACEBOOK_REDIRECT_URI = os.getenv("FACEBOOK_REDIRECT_URI") or "http://localhost:8000/facebook/callback"
 LE_CHAT_USER_ID = os.getenv("LE_CHAT_USER_ID")
 
 # File to store user tokens (same as MCP server)
