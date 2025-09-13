@@ -512,6 +512,7 @@ dependencies = [
     { name = "mcp" },
     { name = "python-dotenv" },
     { name = "requests" },
+    { name = "uvicorn" },
     { name = "watchdog" },
 ]
 
@@ -524,6 +525,7 @@ requires-dist = [
     { name = "mcp" },
     { name = "python-dotenv", specifier = ">=1.0.0" },
     { name = "requests", specifier = ">=2.31.0" },
+    { name = "uvicorn", specifier = ">=0.24.0" },
     { name = "watchdog", specifier = ">=6.0.0" },
 ]
 
