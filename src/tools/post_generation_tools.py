@@ -110,23 +110,33 @@ def register_post_generation_tools(mcp: FastMCP, client, analytics, mistral):
             }, ensure_ascii=False)
 
         # 3) Final copy
-        try:
-            constraints_obj: Optional[Dict[str, Any]] = json.loads(constraints) if constraints.strip() else None
-        except Exception:
-            constraints_obj = {"raw": constraints}
+        # Accept free text constraints; parse JSON only if it looks like JSON
+        constraints_obj: Optional[Dict[str, Any]] = None
+        constraints_text: Optional[str] = None
+        cs = (constraints or "").strip()
+        if cs:
+            if (cs.startswith("{") and cs.endswith("}")) or (cs.startswith("[") and cs.endswith("]")):
+                try:
+                    constraints_obj = json.loads(cs)
+                except Exception:
+                    # Fall back to free text
+                    constraints_text = cs
+            else:
+                constraints_text = cs
 
         try:
             final = mistral.generate_post_copy(
                 posts_data=posts_data,
                 new_post_idea=new_post_idea,
                 client_goal=client_goal,
-                constraints=constraints_obj
+                constraints=constraints_obj if constraints_obj is not None else constraints_text  # pass dict OR str
             )
         except Exception as e:
             return json.dumps({
                 "error": f"Generation error: {e}",
                 "provenance": {"tool": "post_generation", "run_id": run_id, "timestamp": ts}
             }, ensure_ascii=False)
+
 
         # 4) Call Bria
         final["image_urls"] = []
