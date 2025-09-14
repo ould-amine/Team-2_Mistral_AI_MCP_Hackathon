@@ -9,38 +9,42 @@ A powerful Model Context Protocol (MCP) server for Facebook integration with AI-
 - **📊 Advanced Analytics** - Detailed post performance insights
 - **🤖 AI-Powered Suggestions** - Mistral AI generates optimized post content
 - **📈 Performance Tracking** - Historical data analysis and recommendations
+- **🖼️ Image Generation** - Bria AI generates marketing-ready visuals
+- **📊 Chart Generation** - QuickChart.io visualizations of post performance
 - **🏗️ Modular Architecture** - Clean, maintainable, enterprise-grade code structure
 
 ## 📁 Project Structure
 
 ```
 Team-2_Mistral_AI_MCP_Hackathon/
-├── main.py                          # 🚀 Main entry point
-├── facebook_callback_server.py      # 🌐 OAuth callback server
-├── dev.py                          # 🔄 Development runner (auto-restart)
-├── run_servers.py                  # 🏭 Production runner
-├── pyproject.toml                  # 📦 Dependencies
-├── example_env                     # 🔐 Environment template
+├── main.py                           # 🚀 Main entry point
+├── facebook_callback_server.py       # 🌐 OAuth callback server
+├── dev.py                            # 🔄 Development runner (auto-restart)
+├── run_servers.py                    # 🏭 Production runner
+├── pyproject.toml                    # 📦 Dependencies
+├── example_env                       # 🔐 Environment template
 │
-├── src/                            # 📦 Source code package
-│   ├── config/                     # ⚙️ Configuration management
-│   │   └── settings.py             # Environment variables & settings
-│   ├── utils/                      # 🛠️ Utility functions
-│   │   └── data_manager.py         # JSON data management
-│   ├── api/                        # 📡 API Layer
-│   │   ├── facebook_client.py      # Facebook OAuth & connection
-│   │   ├── facebook_posts.py       # Post creation & management
-│   │   └── facebook_analytics.py   # Analytics & insights
-│   ├── ai/                         # 🤖 AI Integration
-│   │   └── mistral_client.py       # Mistral AI for suggestions
-│   └── tools/                      # 🔧 MCP Tools
-│       ├── auth_tools.py           # Authentication tools
-│       ├── posting_tools.py        # Posting tools
-│       ├── analytics_tools.py      # Analytics tools
-│       └── ai_tools.py             # AI suggestion tools
+├── src/                              # 📦 Source code package
+│   ├── config/                       # ⚙️ Configuration management
+│   │   └── settings.py               # Environment variables & settings
+│   ├── utils/                        # 🛠️ Utility functions
+│   │   └── data_manager.py           # JSON data management
+│   ├── api/                          # 📡 API Layer
+│   │   ├── facebook_client.py        # Facebook OAuth & connection
+│   │   ├── facebook_posts.py         # Post creation & management
+│   │   └── facebook_analytics.py     # Analytics & insights
+│   ├── ai/                           # 🤖 AI Integration
+│   │   └── mistral_client.py         # Mistral AI for suggestions
+│   └── tools/                        # 🔧 MCP Tools
+│       ├── auth_tools.py             # Authentication tools
+│       ├── posting_tools.py          # Posting tools
+│       ├── analytics_tools.py        # Analytics tools
+│       └── ai_tools.py               # AI suggestion tools
+│       ├── post_generation_tools.py  # Text+image post generation
+│       └── chart_tools.py            # Chart generation tools
 │
-└── docs/                           # 📚 Documentation
-    └── ARCHITECTURE.md             # Complete architecture guide
+└── docs/                             # 📚 Documentation
+    └── ARCHITECTURE.md               # Complete architecture guide
 ```
 
 ## 🚀 Quick Start
@@ -79,6 +83,7 @@ FACEBOOK_APP_SECRET=your_facebook_app_secret
 FACEBOOK_REDIRECT_URI=http://localhost:8000/facebook/callback
 LE_CHAT_USER_ID=your_user_id
 MISTRAL_API_KEY=your_mistral_api_key
+BRIA_API_TOKEN=your_bria_api_key
 ```
 
 ### 3. Facebook App Setup
@@ -118,6 +123,24 @@ python3 run_servers.py
 
 ### AI Tools
 - **`suggest_facebook_post(business_info, additional_context?, use_analytics?)`** - AI-powered post suggestions
+
+### Post Generation Tools
+- **`post_generation(limit?, new_post_idea, client_goal?, constraints?, bria_num_results?)`** 
+          - Fetches recent posts
+          - Analyzes them with Mistral AI
+          - Generates new post copy + estimated impact
+          - Optionally generates Bria AI image(s)
+          - Returns JSON with insights, final copy, and image URLs
+
+### Chart Generation Tools
+
+- **`generate_charts(limit?, metric?, presets_csv?, top_n?, include_tables?, return_configs?)`
+          - Builds QuickChart.io charts from recent posts
+          - Presets:
+                  - overview: bar of metric per post
+                  - by_type: avg metric for image vs text posts
+                  - top_posts: top-N posts by metric (horizontal bar)
+          - Returns chart URLs, tables (optional), and provenance
 
 ## 🤖 AI-Powered Features
 
