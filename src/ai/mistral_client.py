@@ -243,10 +243,15 @@ TIPS: [Your engagement tips]
         return result
 
 
-    def generate_post_copy(self, posts_data, new_post_idea: str,
-                        client_goal: str = "maximize overall engagement (reactions, comments, shares)",
-                        constraints: dict | None = None,
-                        model: str = None):
+    def generate_post_copy(
+        self,
+        posts_data,
+        new_post_idea: str,
+        client_goal: str = "maximize overall engagement (reactions, comments, shares)",
+        constraints: Any = None,   # <-- accept dict OR str
+        model: str = None,
+        temperature: float = 0.1,
+    ):
         """
         Returns dict:
         {
@@ -258,7 +263,8 @@ TIPS: [Your engagement tips]
         (No Bria call here; the tool will decide whether to call Bria.)
         """
         import json, re
-        constraints = constraints or {}
+        constraints_dict = constraints if isinstance(constraints, dict) else None
+        constraints_text = constraints if isinstance(constraints, str) else None
         model = model or os.getenv("MCP_MODEL_TEXT", "mistral-medium-latest")
 
         instruction = (
@@ -278,13 +284,14 @@ TIPS: [Your engagement tips]
         )
 
         payload = {
-            "context": {
-                "objective": client_goal,
-                "constraints": constraints,
-                "new_post_idea": new_post_idea,
-                "historical_posts": posts_data
-            }
+        "context": {
+            "objective": client_goal,
+            "constraints_structured": constraints_dict,   # may be None
+            "constraints_text": constraints_text,         # may be None
+            "new_post_idea": new_post_idea,
+            "historical_posts": posts_data,
         }
+    }
 
         messages = [
             {"role": "system", "content": "You are a precise marketing analyst who strictly follows output formatting."},
