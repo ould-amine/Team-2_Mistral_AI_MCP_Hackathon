@@ -276,4 +276,4 @@ For issues and questions:
 
 ---
 
-**Built with ❤️ using FastMCP, Facebook Graph API, and Mistral AI**
+**Built with ❤ using FastMCP, Facebook Graph API, and Mistral AI**
