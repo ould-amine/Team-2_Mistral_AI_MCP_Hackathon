@@ -13,14 +13,14 @@ def register_ai_tools(mcp: FastMCP, client: FacebookClient, analytics: FacebookA
     
     @mcp.tool(
         title="Suggest Facebook Post",
-        description="Generate AI-powered Facebook post suggestions based on business info and previous analytics",
+        description="Generate Facebook post suggestions based on business info and previous analytics",
     )
     def suggest_facebook_post(
-        business_info: str = Field(description="Information about your business, products, or services"),
+        business_info: str = Field(description="Information about your business, products, or services", default=""),
         additional_context: str = Field(description="Any additional context or specific requirements for the post", default=""),
         use_analytics: bool = Field(description="Whether to analyze previous post performance for better suggestions", default=True)
     ) -> str:
-        """Generate AI-powered Facebook post suggestions using Mistral AI"""
+        """Generate Facebook post suggestions using Mistral AI"""
         try:
             if not client.is_connected():
                 return "❌ Facebook not connected. Use 'get_facebook_auth_url()' to get the authorization URL."
@@ -28,16 +28,14 @@ def register_ai_tools(mcp: FastMCP, client: FacebookClient, analytics: FacebookA
             # Fetch analytics data if requested
             analytics_data = []
             if use_analytics:
-                print("📊 Fetching previous analytics data...")
                 analytics_data = analytics.fetch_analytics_data(limit=20)
-                print(f"📈 Found {len(analytics_data)} previous posts for analysis")
             
             # Generate suggestion using Mistral AI
             print("🤖 Generating post suggestion with Mistral AI...")
             suggestion = mistral.generate_post_suggestion(business_info, analytics_data, additional_context)
             
             # Format the response
-            result = f"🎯 AI-Powered Facebook Post Suggestion\n"
+            result = f"🎯 Facebook Post Suggestion\n"
             result += f"📊 Based on {len(analytics_data)} previous posts\n\n"
             result += suggestion
             

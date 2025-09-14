@@ -12,7 +12,7 @@ def register_posting_tools(mcp: FastMCP, client: FacebookClient, posts: Facebook
     
     @mcp.tool(
         title="Post to Facebook Page",
-        description="Post text content and/or image to Facebook page (uses first available page)",
+        description="Post text content and/or image to Facebook page",
     )
     def post_to_facebook_page(
         post_text: str = Field(description="Message content to post to Facebook page"),

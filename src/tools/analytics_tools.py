@@ -16,19 +16,19 @@ def register_analytics_tools(mcp: FastMCP, client: FacebookClient, analytics: Fa
         """Get recent Facebook posts with basic analytics"""
         return analytics.get_post_history_summary(limit=20)
 
-    @mcp.tool(
-        title="Get Facebook Post Analytics",
-        description="Get detailed analytics for a specific Facebook post",
-    )
-    def get_facebook_post_analytics(
-        post_id: str = Field(description="Facebook post ID to get analytics for")
-    ) -> str:
-        """Get detailed analytics for a specific Facebook post"""
-        return analytics.get_detailed_post_analytics(post_id)
+    # @mcp.tool(
+    #     title="Get Facebook Post Analytics",
+    #     description="Get detailed analytics for a specific Facebook post",
+    # )
+    # def get_facebook_post_analytics(
+    #     post_id: str = Field(description="Facebook post ID to get analytics for")
+    # ) -> str:
+    #     """Get detailed analytics for a specific Facebook post"""
+    #     return analytics.get_detailed_post_analytics(post_id)
 
     @mcp.tool(
-        title="Get Facebook Analytics Data",
-        description="Get structured analytics data as JSON for external processing",
+        title="Get Facebook Posts Analytics Data",
+        description="Get structured analytics data for Facebook posts (Max 20)",
     )
     def get_facebook_analytics_data(
         limit: int = Field(description="Number of recent posts to analyze", default=20)
